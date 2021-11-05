@@ -17,6 +17,11 @@ config :softi, SoftiWeb.Endpoint,
   pubsub_server: Softi.PubSub,
   live_view: [signing_salt: "gJa5P5hO"]
 
+config :softi, Softi.Guardian,
+       issuer: "softi",
+       secret_key: "bQ2hs/IMppPjOTgvAcBNTPTJHrLIYPdDiLropCHK0MIJHALwp5VO4ZpymxMdIrU/"
+
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
