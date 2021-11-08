@@ -49,7 +49,6 @@ defmodule Softi.MixProject do
       {:jason, "~> 1.2"},
       {:ex_machina, "~> 2.7.0"},
       {:guardian, "~> 2.0"},
-      {:bcrypt_elixir, "~> 2.0"},
       {:plug_cowboy, "~> 2.5"}
     ]
   end

@@ -3,7 +3,6 @@ defmodule SoftiWeb.AuthorControllerTest do
 
   alias Softi.Accounts.Author
 
-  import Softi.AccountsFixtures
   import Softi.Factory
 
   setup %{conn: conn} do

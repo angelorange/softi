@@ -19,8 +19,7 @@ config :softi, SoftiWeb.Endpoint,
 
 config :softi, Softi.Guardian,
        issuer: "softi",
-       secret_key: "bQ2hs/IMppPjOTgvAcBNTPTJHrLIYPdDiLropCHK0MIJHALwp5VO4ZpymxMdIrU/"
-
+       secret_key: "nb2yKO2u/U3+amwsiNTENWtCEOiPKH4hbUkZza58N3j7LRQj8NsTHVgafgi2ySur"
 
 # Configures the mailer
 #

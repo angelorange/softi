@@ -101,4 +101,23 @@ defmodule Softi.Accounts do
   def change_author(%Author{} = author, attrs \\ %{}) do
     Author.changeset(author, attrs)
   end
+
+  def get_author_by_email(email) do
+    Author
+    |> where([a], a.email == ^email)
+    |> Repo.one()
+  end
+
+  def check_password(%Author{} = author, password) do
+    if author.password == password, do: {:ok, author}, else: {:error, :not_found}
+  end
+
+  def login(%{"email" => email, "password" => password}) do
+    case get_author_by_email(email) do
+      %Author{} = author ->
+        check_password(author, password)
+      _ ->
+        {:error, :not_found}
+    end
+  end
 end
