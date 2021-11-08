@@ -1,6 +1,8 @@
 defmodule SoftiWeb.Router do
   use SoftiWeb, :router
 
+  alias SoftiWeb.AuthorController
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -12,6 +14,8 @@ defmodule SoftiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    resources "/authors", AuthorController, except: [:new, :edit]
   end
 
   scope "/", SoftiWeb do
