@@ -14,7 +14,7 @@ defmodule Softi.Guardian do
   @impl true
   def resource_from_claims(%{"sub" => id}) do
     resource = Softi.Accounts.get_author!(id)
-    {:ok,  resource}
+    {:ok, resource}
   end
 
   def resource_from_claims(_claims) do

@@ -29,22 +29,25 @@ defmodule Softi.AccountsTest do
     end
 
     test "create_author/1 with invalid data returns error changeset" do
-      params = params_for(:author, %{
-        email: nil,
-        name: nil,
-        password: nil
-      })
+      params =
+        params_for(:author, %{
+          email: nil,
+          name: nil,
+          password: nil
+        })
+
       assert {:error, %Ecto.Changeset{}} = Accounts.create_author(params)
     end
 
     test "update_author/2 with valid data updates the author" do
       author = insert(:author)
 
-      updated = params_for(:author, %{
-        name: "shinji",
-        email: "shinji@gmail.com",
-        password: "chorei123"
-      })
+      updated =
+        params_for(:author, %{
+          name: "shinji",
+          email: "shinji@gmail.com",
+          password: "chorei123"
+        })
 
       assert {:ok, %Author{} = author} = Accounts.update_author(author, updated)
       assert author.email == updated.email
@@ -60,6 +63,7 @@ defmodule Softi.AccountsTest do
         email: nil,
         password: nil
       }
+
       assert {:error, %Ecto.Changeset{}} = Accounts.update_author(author, params)
       assert author == Accounts.get_author!(author.id)
     end

@@ -17,10 +17,21 @@ defmodule SoftiWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug :accepts, ["json"]
+    plug SoftiWeb.AuthPlug
+  end
+
   scope "/api" do
     pipe_through :api
 
-    resources "/authors", AuthorController, except: [:new, :edit]
+    resources "/authors", AuthorController, except: [:new, :edit, :update]
     post "/login", SessionController, :login
+  end
+
+  scope "/api" do
+    pipe_through :auth
+
+    resources "/authors", AuthorController, only: [:update]
   end
 end

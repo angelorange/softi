@@ -4,11 +4,11 @@ defmodule SoftiWeb.SessionController do
   alias Softi.Accounts
   alias Softi.Guardian
 
-  action_fallback  SoftiWeb.FallbackController
+  action_fallback SoftiWeb.FallbackController
 
   def login(conn, params) do
     with {:ok, author} <- Accounts.login(params),
-      {:ok, token, _claims} = Guardian.encode_and_sign(author) do
+         {:ok, token, _claims} = Guardian.encode_and_sign(author) do
       json(conn, %{token: token})
     end
   end

@@ -19,6 +19,7 @@ defmodule SoftiWeb.AuthorControllerTest do
   describe "create author" do
     test "renders author when data is valid", %{conn: conn} do
       author = params_for(:author)
+
       params = %{
         "author" => %{
           name: author.name,
@@ -41,6 +42,7 @@ defmodule SoftiWeb.AuthorControllerTest do
         name: nil,
         password: nil
       }
+
       conn = post(conn, Routes.author_path(conn, :create), author: params)
       assert json_response(conn, 422)["errors"] != %{}
     end
@@ -56,12 +58,23 @@ defmodule SoftiWeb.AuthorControllerTest do
         email: author.email,
         password: author.password
       }
-      conn = put(conn, Routes.author_path(conn, :update, author), author: params)
+
+      conn =
+        login(conn, author)
+        |> put(Routes.author_path(conn, :update, author), author: params)
 
       assert expected = json_response(conn, 200)["data"]
       assert expected["email"] == params.email
       assert expected["name"] == params.name
       assert expected["password"] == params.password
+    end
+
+    test "returns :error when it's not login", %{conn: conn, author: author} do
+      params = %{}
+
+      conn = put(conn, Routes.author_path(conn, :update, author), author: params)
+
+      assert json_response(conn, 401)["message"] == "unauthenticated"
     end
   end
 

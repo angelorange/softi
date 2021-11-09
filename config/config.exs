@@ -18,8 +18,8 @@ config :softi, SoftiWeb.Endpoint,
   live_view: [signing_salt: "gJa5P5hO"]
 
 config :softi, Softi.Guardian,
-       issuer: "softi",
-       secret_key: "nb2yKO2u/U3+amwsiNTENWtCEOiPKH4hbUkZza58N3j7LRQj8NsTHVgafgi2ySur"
+  issuer: "softi",
+  secret_key: "nb2yKO2u/U3+amwsiNTENWtCEOiPKH4hbUkZza58N3j7LRQj8NsTHVgafgi2ySur"
 
 # Configures the mailer
 #

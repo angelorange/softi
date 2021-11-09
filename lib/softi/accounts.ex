@@ -116,6 +116,7 @@ defmodule Softi.Accounts do
     case get_author_by_email(email) do
       %Author{} = author ->
         check_password(author, password)
+
       _ ->
         {:error, :not_found}
     end
