@@ -6,13 +6,17 @@ defmodule Softi.Proceedings.Event do
     field :description, :string
     field :title, :string
 
+    belongs_to :author, Softi.Accounts.Author
+
     timestamps()
   end
+
+  @required ~w(title description author_id)a
 
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:title, :description])
-    |> validate_required([:title, :description])
+    |> cast(attrs, @required)
+    |> validate_required(@required)
   end
 end

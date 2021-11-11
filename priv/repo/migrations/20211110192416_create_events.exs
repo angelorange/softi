@@ -6,6 +6,8 @@ defmodule Softi.Repo.Migrations.CreateEvents do
       add :title, :string
       add :description, :string
 
+      add(:author_id, references(:authors), on_delete: :delete_all)
+
       timestamps()
     end
   end

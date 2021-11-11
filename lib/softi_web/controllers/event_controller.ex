@@ -3,6 +3,7 @@ defmodule SoftiWeb.EventController do
 
   alias Softi.Proceedings
   alias Softi.Proceedings.Event
+  alias Softi.Guardian
 
   action_fallback SoftiWeb.FallbackController
 
@@ -12,7 +13,10 @@ defmodule SoftiWeb.EventController do
   end
 
   def create(conn, %{"event" => event_params}) do
-    with {:ok, %Event{} = event} <- Proceedings.create_event(event_params) do
+    author = Guardian.get_author(conn)
+
+    params = Map.merge(event_params, %{"author_id" => author.id})
+    with {:ok, %Event{} = event} <- Proceedings.create_event(params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.event_path(conn, :show, event))

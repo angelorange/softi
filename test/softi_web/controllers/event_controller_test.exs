@@ -6,7 +6,8 @@ defmodule SoftiWeb.EventControllerTest do
   import Softi.Factory
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    author = insert(:author)
+    {:ok, conn: put_req_header(conn, "accept", "application/json"), author: author}
   end
 
   describe "index" do
@@ -17,22 +18,29 @@ defmodule SoftiWeb.EventControllerTest do
   end
 
   describe "create event" do
-    test "renders event when data is valid", %{conn: conn} do
+    test "renders event when data is valid, as Author", %{conn: conn} do
+      author = insert(:author)
       params = %{
-        title: "Idk",
-        description: "kkkkkkkkkkkkkkk"
+          title: "Idk",
+          description: "kkkkkkkkkkkkkkk"
       }
-      conn = post(conn, Routes.event_path(conn, :create), event: params)
+
+      conn =
+        login(conn, author)
+        |> post(Routes.event_path(conn, :create), event: params)
 
       assert expected = json_response(conn, 201)["data"]
+      assert expected["author_id"] == author.id
       assert expected["title"] == params.title
       assert expected["description"] == params.description
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
+    test "renders errors when data is invalid", %{conn: conn, author: author} do
       params = %{title: nil, description: nil}
 
-      conn = post(conn, Routes.event_path(conn, :create), event: params)
+      conn =
+        login(conn, author)
+        |> post(Routes.event_path(conn, :create), event: params)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -40,33 +48,24 @@ defmodule SoftiWeb.EventControllerTest do
   describe "update event" do
     setup [:create_event]
 
-    test "renders event when data is valid", %{conn: conn, event: %Event{id: id} = event} do
+    test "renders event when data is valid", %{conn: conn, event: event, author: author} do
       params = %{title: "Comer, rezar e amar", description: "nada demais aqui"}
 
-      conn = put(conn, Routes.event_path(conn, :update, event), event: params)
+      conn =
+        login(conn, author)
+        |> put(Routes.event_path(conn, :update, event), event: params)
 
       assert expected = json_response(conn, 200)["data"]
       assert expected["title"] == params.title
     end
 
-    test "renders errors when data is invalid", %{conn: conn, event: event} do
+    test "renders errors when data is invalid", %{conn: conn, event: event, author: author} do
       params = %{title: nil, description: nil}
 
-      conn = put(conn, Routes.event_path(conn, :update, event), event: params)
+      conn =
+        login(conn, author)
+        |> put(Routes.event_path(conn, :update, event), event: params)
       assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
-  describe "delete event" do
-    setup [:create_event]
-
-    test "deletes chosen event", %{conn: conn, event: event} do
-      conn = delete(conn, Routes.event_path(conn, :delete, event))
-      assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.event_path(conn, :show, event))
-      end
     end
   end
 

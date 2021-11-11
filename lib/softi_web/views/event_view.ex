@@ -14,7 +14,8 @@ defmodule SoftiWeb.EventView do
     %{
       id: event.id,
       title: event.title,
-      description: event.description
+      description: event.description,
+      author_id: event.author_id
     }
   end
 end

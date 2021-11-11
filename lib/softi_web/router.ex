@@ -16,7 +16,6 @@ defmodule SoftiWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
 
-    resources "/events", SoftiWeb.EventController, except: [:new, :edit]
   end
 
   pipeline :auth do
@@ -27,13 +26,16 @@ defmodule SoftiWeb.Router do
   scope "/api" do
     pipe_through :api
 
-    resources "/authors", AuthorController, except: [:new, :edit, :update]
     post "/login", SessionController, :login
+
+    resources "/authors", AuthorController, except: [:new, :edit, :update]
+    resources "/events", SoftiWeb.EventController, only: [:index, :show]
   end
 
   scope "/api" do
     pipe_through :auth
 
     resources "/authors", AuthorController, only: [:update]
+    resources "/events", SoftiWeb.EventController, only: [:create, :update]
   end
 end
