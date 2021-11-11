@@ -23,6 +23,7 @@ defmodule SoftiWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import SoftiWeb.ConnCase
+      import SoftiWeb.TestSuport
 
       alias SoftiWeb.Router.Helpers, as: Routes
 
