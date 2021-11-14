@@ -23,7 +23,8 @@ defmodule Softi.ProceedingsTest do
     end
 
     test "create_event/1 with valid data creates a event" do
-      expected = params_for(:event)
+      author = insert(:author)
+      expected = params_for(:event, author: author)
 
       assert {:ok, %Event{} = event} = Proceedings.create_event(expected)
       assert event.description == expected.description
@@ -39,11 +40,13 @@ defmodule Softi.ProceedingsTest do
     end
 
     test "update_event/2 with valid data updates the event" do
+      author = insert(:author)
       event = insert(:event)
 
       updated = params_for(:event, %{
         title: "nada nao fii",
-        description: "foifoifoiffoi"
+        description: "foifoifoiffoi",
+        author_id: author.id
       })
 
       assert {:ok, %Event{} = event} = Proceedings.update_event(event, updated)

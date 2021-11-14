@@ -49,7 +49,8 @@ defmodule SoftiWeb.EventControllerTest do
     setup [:create_event]
 
     test "renders event when data is valid", %{conn: conn, event: event, author: author} do
-      params = %{title: "Comer, rezar e amar", description: "nada demais aqui"}
+      author = insert(:author)
+      params = %{title: "Comer, rezar e amar", description: "nada demais aqui", author_id: author.id}
 
       conn =
         login(conn, author)
