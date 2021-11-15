@@ -30,6 +30,7 @@ defmodule SoftiWeb.Router do
 
     resources "/authors", AuthorController, except: [:new, :edit, :update]
     resources "/events", SoftiWeb.EventController, only: [:index, :show]
+    resources "/articles", SoftiWeb.ArticleController, only: [:index, :show]
   end
 
   scope "/api" do
@@ -37,5 +38,6 @@ defmodule SoftiWeb.Router do
 
     resources "/authors", AuthorController, only: [:update]
     resources "/events", SoftiWeb.EventController, only: [:create, :update]
+    resources "/articles", SoftiWeb.ArticleController, only: [:create, :update]
   end
 end

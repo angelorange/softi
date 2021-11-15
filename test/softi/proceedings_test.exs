@@ -99,7 +99,7 @@ defmodule Softi.ProceedingsTest do
     test "create_article/1 with valid data creates a article" do
       author = insert(:author)
       event = insert(:event, author_id: author.id)
-      expected = params_for(:article, events_id: event)
+      expected = params_for(:article, event_id: event.id, author_id: author.id)
 
 
       assert {:ok, %Article{} = article} = Proceedings.create_article(expected)
@@ -120,7 +120,7 @@ defmodule Softi.ProceedingsTest do
     test "update_article/2 with valid data updates the article" do
       author = insert(:author)
       event = insert(:event, author_id: author.id)
-      article = insert(:article, events_id: event.id)
+      article = insert(:article, event_id: event.id, author_id: author.id)
       expected = %{keywords: ["doce, travessuras"], summary: "something about halloween", title: "halloween"}
 
       assert {:ok, %Article{} = article} = Proceedings.update_article(article, expected)

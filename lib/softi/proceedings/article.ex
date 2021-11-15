@@ -6,16 +6,19 @@ defmodule Softi.Proceedings.Article do
     field :keywords, {:array, :string}
     field :summary, :string
     field :title, :string
-    field :author_id, :id
-    field :events_id, :id
+
+    belongs_to :author, Softi.Accounts.Author
+    belongs_to :event, Softi.Proceedings.Event
 
     timestamps()
   end
 
+  @required ~w(title summary author_id keywords event_id)a
+
   @doc false
   def changeset(article, attrs) do
     article
-    |> cast(attrs, [:title, :keywords, :summary])
-    |> validate_required([:title, :keywords, :summary])
+    |> cast(attrs, @required)
+    |> validate_required(@required)
   end
 end
