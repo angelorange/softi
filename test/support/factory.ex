@@ -3,4 +3,5 @@ defmodule Softi.Factory do
 
   use Softi.EventsFactory
   use Softi.AuthorFactory
+  use Softi.ArticleFactory
 end
